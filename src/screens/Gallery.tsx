@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
-import { useFocusEffect, useIsFocused, useNavigation } from '@react-navigation/native';
-import { StyleSheet, FlatList, RefreshControl } from 'react-native';
-import CameraRoll from '@react-native-community/cameraroll';
+import { 
+  useFocusEffect, 
+  useIsFocused, 
+  useNavigation, 
+  useRoute
+} from '@react-navigation/native';
+import { StyleSheet, FlatList } from 'react-native';
+import CameraRoll, { GetPhotosParams } from '@react-native-community/cameraroll';
 import { FAB } from 'react-native-paper';
 
 import ThumbButton from '../components/ThumbButton';
@@ -12,47 +17,46 @@ interface Props {
 }
 
 const Gallery: React.FC<Props> = props => {
-  const [ refreshing, setRefreshing ] = useState(false);
   const [ photos, setPhotos ] = useState([]);
   const [ photosPageInfo, setPhotosPageInfo ] = useState();
   const isFocused = useIsFocused();
+  const route = useRoute();
   const navigation = useNavigation();
 
   useFocusEffect(
     React.useCallback(() => {
       if(isFocused) {
-        getPhotos();
+        navigation.setParams({
+          subtitle: 'All Photos'
+        });
+        getPhotos(route.params?.refresh);
       }
     }, [isFocused])
   );
 
-  const getPhotos = async () => {
-    setRefreshing(true);
+  async function getPhotos(refresh: boolean = false) {
+    if(photosPageInfo && !photosPageInfo.has_next_page) return;
+
     try {
-      const data = await CameraRoll.getPhotos({
+      const options: GetPhotosParams = {
         first: 50,
-        assetType: 'Photos',
-        after: photosPageInfo?.end_cursor
-      });
+        assetType: 'Photos'
+      }
+      if (!refresh) options.after = photosPageInfo?.end_cursor;
+      const data = await CameraRoll.getPhotos(options);  
       setPhotosPageInfo(data.page_info);
-      const newList = photos.length ? photos.concat(data.edges) : data.edges;
+      const newList = !refresh && photos.length 
+        ? photos.concat(data.edges) 
+        : data.edges;
       setPhotos(newList);
-      data.edges.map(item => console.log(`got: ${item.node.image.uri}`));
     } catch(e) {
-      console.log(JSON.stringify(e, null, 4));
+      console.log(e);
     };
-    setRefreshing(false);
   }
 
   return (
     <>
       <FlatList
-        refreshControl={
-          <RefreshControl 
-            refreshing={refreshing}
-            onRefresh={() => getPhotos()}
-          />
-        }
         style={styles.list}
         contentContainerStyle={styles.listContent}
         numColumns={3}
@@ -60,7 +64,7 @@ const Gallery: React.FC<Props> = props => {
         renderItem={({item}) =>
           <ThumbButton
             source={ item.node.image.uri }
-            onPress={source => navigation.navigate(PHOTO, { source })}
+            onPress={() => navigation.navigate(PHOTO, { photo: item.node })}
           />
         }
         keyExtractor={(item, i) => `key${i}`}

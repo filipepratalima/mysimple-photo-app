@@ -1,14 +1,21 @@
 import React, {useState} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {
+  useNavigation, 
+  useIsFocused, 
+  useFocusEffect
+} from '@react-navigation/native';
 import {RNCamera} from 'react-native-camera';
 import CameraRoll from '@react-native-community/cameraroll';
-import { StyleSheet, View } from 'react-native';
 import {Snackbar, Title} from 'react-native-paper';
-import IconButton, {
+import CameraButton, {
   SIZE_BIG, 
   SIZE_SMALL, 
   ICON_CAMERA, 
   ICON_SWITCH_CAMERA
-} from '../components/IconButton';
+} from '../components/CameraButton';
+
+import {GALLERY} from '../navigation/screens';
 
 interface Props {
 
@@ -21,11 +28,22 @@ const cameras: any[] = [
 
 let cameraNode: any;
 
-const Camera: React.FC<Props> = (props) => {
+const Camera: React.FC<Props> = props => {
+  const isFocused = useIsFocused();
+  const navigation = useNavigation();
   const [cameraType, setCameraType] = useState(cameras[0]);
   const [notifySuccess, setNotifySuccess] = useState(false);
 
-  const shoot = async () => {
+  useFocusEffect(React.useCallback(() => {
+    if(isFocused) {
+      navigation.setParams({
+        overrideOnBackButtonPress: () => 
+          navigation.navigate(GALLERY, { refresh: true })
+      })
+    }
+  }, [isFocused]))
+
+  async function shoot() {
     if(cameraNode) {
       const data = await cameraNode.takePictureAsync();
       await CameraRoll.saveToCameraRoll(data.uri);
@@ -44,20 +62,17 @@ const Camera: React.FC<Props> = (props) => {
         opacity: notifySuccess ? 0 : 1,
         ...styles.cameraControls
         }}>
-        <IconButton 
-          style={styles.cameraButtonCenter} 
+        <CameraButton 
           size={SIZE_BIG}
           type={ICON_CAMERA}
           onPress={() => shoot()}
         />
-        <IconButton 
-          style={styles.cameraButtonRight}
+        <CameraButton 
           size={SIZE_SMALL}
           type={ICON_SWITCH_CAMERA}
-          onPress={() => setCameraType(cameraType === cameras[0] 
-            ? cameras[1] 
-            : cameras[0])
-          }
+          onPress={() => {
+            setCameraType(cameraType === cameras[0] ? cameras[1] : cameras[0])
+          }}
         />
       </View>
       <Snackbar
@@ -92,15 +107,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginLeft: '32%',
     justifyContent: 'space-around'
-  },
-  cameraButtonCenter: {
-    // flexGrow: 2,
-    // position: 'absolute',
-    // textAlign: 'center',
-  },
-  cameraButtonRight: {
-    // flexGrow: 1,
-    // justifyContent: 'flex-end'
   },
   snackbar: {
     backgroundColor: 'purple',

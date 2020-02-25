@@ -5,6 +5,6 @@ export default {
   colors: {
     ...DefaultTheme.colors,
     primary: 'purple',
-    accent: 'yellow',
+    accent: 'magenta',
   }
 }

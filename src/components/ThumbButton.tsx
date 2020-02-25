@@ -7,7 +7,7 @@ interface Props {
   onPress: Function;
 }
 
-const ThumbButton: React.FC<Props> = (props) => {
+const ThumbButton: React.FC<Props> = props => {
   const [loading, setLoading] = useState(true);
 
   return (

@@ -7,8 +7,6 @@ import {
   useIsFocused, 
   useFocusEffect
 } from '@react-navigation/native';
-import AppBar from '../components/AppBar';
-
 import {GALLERY} from '../navigation/screens';
 
 interface Props {

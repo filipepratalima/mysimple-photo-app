@@ -2,7 +2,13 @@
 
 A simple example photo gallery and camera shooting app built in React-Native.
 
+### Test it
+
+* [TestFlight Public Link](https://testflight.apple.com/join/RX1SXclc)
+
+
 ### Built with
+
 * [Expo](http://expo.io) - Expo bare project
 * [react-navigation](https://reactnavigation.or) - Navigation framework
 * [react-native-paper](https://callstack.github.io/react-native-paper) - Layout framework

@@ -3,17 +3,20 @@ import {TouchableOpacity, StyleSheet} from 'react-native';
 import {Avatar} from 'react-native-paper';
 
 interface Props {
-  style: any;
+  style?: any;
   size: Number;
   type: string;
   onPress: Function;
 }
 
+export const SIZE_BIGGEST: Number = 120;
 export const SIZE_BIG: Number = 75;
 export const SIZE_SMALL: Number = 55;
 
-export const TYPE_CAMERA: string = 'camera';
-export const TYPE_SWITCH_CAMERA: string = 'autorenew';
+export const ICON_CAMERA: string = 'camera';
+export const ICON_SWITCH_CAMERA: string = 'autorenew';
+export const ICON_PHOTO_GALLERY: string = 'folder-multiple-image';
+export const ICON_PHOTO_CAMERA: string = 'camera-outline';
 
 const hitSlop = {
   top: 5,
@@ -22,10 +25,13 @@ const hitSlop = {
   right: 5
 }
 
-const CameraButton: React.FC<Props> = (props) => {
+const IconButton: React.FC<Props> = (props) => {
   return (
     <TouchableOpacity 
-      style={styles.main}
+      style={{
+        ...styles.main,
+        ...props.style
+      }}
       onPress={props.onPress}
       {...hitSlop}
     >
@@ -44,4 +50,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default CameraButton;
+export default IconButton;

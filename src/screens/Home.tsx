@@ -1,8 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {useFocusEffect, useIsFocused, useNavigation} from '@react-navigation/native';
-import {IconButton, Headline, Title, Paragraph, Button} from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
+import {Headline, Title, Paragraph} from 'react-native-paper';
 
+import IconButton, {
+  SIZE_BIGGEST,
+  ICON_PHOTO_GALLERY, 
+  ICON_PHOTO_CAMERA
+} from '../components/IconButton';
 import {GALLERY, CAMERA} from '../navigation/screens';
 
 interface Props {
@@ -18,30 +23,20 @@ const Home: React.FC<Props> = (props) => {
         <Title>Welcome,</Title>
         <Paragraph>Please select from the options below</Paragraph>
       </View>
-      <IconButton 
-        icon="folder-multiple-image"
-        size={80}
-        onPress={() => navigation.navigate(GALLERY)}
-      />
-      <IconButton 
-        icon="camera-outline" 
-        size={80}
-        onPress={() => navigation.navigate(CAMERA)}
-      />
-      {/* <Button 
-        icon=""
-        mode="contained" 
-        onPress={() => navigation.navigate(GALLERY)}
-      >
-        Photo Gallery
-      </Button>
-      <Button 
-        icon="camera" 
-        mode="contained" 
-        onPress={() => {navigation.navigate(CAMERA)}}
-      >
-        Camera
-      </Button> */}
+      <View style={styles.buttons}>
+        <IconButton
+          style={styles.button}
+          size={SIZE_BIGGEST}
+          type={ICON_PHOTO_GALLERY}
+          onPress={() => navigation.navigate(GALLERY)}
+        />
+        <IconButton
+          style={styles.button}
+          size={SIZE_BIGGEST}
+          type={ICON_PHOTO_CAMERA}
+          onPress={() => navigation.navigate(CAMERA)}
+        />
+      </View>
     </View>
   )
 }
@@ -54,6 +49,17 @@ const styles = StyleSheet.create({
   },
   description: {
     paddingVertical: 40,
+  },
+  buttons: {
+    paddingVertical: 40,
+    justifyContent: 'space-between'
+  },
+  button: {
+    margin: 20,
+    shadowOffset: {width: 1, height: 1},
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    shadowColor: 'black'
   }
 })
 

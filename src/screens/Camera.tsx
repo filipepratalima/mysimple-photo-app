@@ -3,12 +3,12 @@ import {RNCamera} from 'react-native-camera';
 import CameraRoll from '@react-native-community/cameraroll';
 import { StyleSheet, View } from 'react-native';
 import {Snackbar, Title} from 'react-native-paper';
-import CameraButton, {
+import IconButton, {
   SIZE_BIG, 
   SIZE_SMALL, 
-  TYPE_CAMERA, 
-  TYPE_SWITCH_CAMERA
-} from '../components/CameraButton';
+  ICON_CAMERA, 
+  ICON_SWITCH_CAMERA
+} from '../components/IconButton';
 
 interface Props {
 
@@ -44,16 +44,16 @@ const Camera: React.FC<Props> = (props) => {
         opacity: notifySuccess ? 0 : 1,
         ...styles.cameraControls
         }}>
-        <CameraButton 
+        <IconButton 
           style={styles.cameraButtonCenter} 
           size={SIZE_BIG}
-          type={TYPE_CAMERA}
+          type={ICON_CAMERA}
           onPress={() => shoot()}
         />
-        <CameraButton 
+        <IconButton 
           style={styles.cameraButtonRight}
           size={SIZE_SMALL}
-          type={TYPE_SWITCH_CAMERA}
+          type={ICON_SWITCH_CAMERA}
           onPress={() => setCameraType(cameraType === cameras[0] 
             ? cameras[1] 
             : cameras[0])

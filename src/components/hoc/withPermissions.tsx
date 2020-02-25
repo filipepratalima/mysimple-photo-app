@@ -1,5 +1,4 @@
-import React, {useEffect, useState, Component} from 'react';
-import {useFocusEffect, useIsFocused, useNavigation} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
 import { Banner } from 'react-native-paper';
 import {checkPermissions, requestPermissions, openAppSettings} from '../../services/permissions';
 

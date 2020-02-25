@@ -1102,7 +1102,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.filipeinc.MySimplePhotoApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.filipeinc.play.rnmysimplephotoapp;
 				PRODUCT_NAME = MySimplePhotoApp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1122,7 +1122,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.filipeinc.MySimplePhotoApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.filipeinc.play.rnmysimplephotoapp;
 				PRODUCT_NAME = MySimplePhotoApp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

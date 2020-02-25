@@ -16,7 +16,7 @@ const Stack = createStackNavigator();
 export default () => (
   <NavigationContainer>
     <Stack.Navigator
-      // initialRouteName={screens.HOME}
+      initialRouteName={screens.HOME}
       screenOptions={{}}
     >
       <Stack.Screen name={screens.HOME} component={withPermissions(Home)} options={Home.navigationOptions}/>
